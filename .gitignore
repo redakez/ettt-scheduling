@@ -1,0 +1,26 @@
+# Package Files
+*.jar
+*.war
+*.ear
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Maven
+log/
+target/
+
+# Compiled Files
+*.class
+bin/
+build/
+
+# Temporary files
+*.csv
+*.csv#
+*.dot
+
+# Debug
+DebugMain.java
