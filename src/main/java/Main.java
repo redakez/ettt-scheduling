@@ -62,19 +62,25 @@ public class Main {
         Boolean schedulable = null;
         if (ap.presentArgs.containsKey('a')) {
             String algorithmName = ap.presentArgs.get('a');
-            if (algorithmName.equals("ETBF")) {
+            if (algorithmName.equals("ET-BF")) {
+                if (!ttTasks.isEmpty()) {
+                    throw new IllegalArgumentException("Input instance contains TT tasks, but the algorithm takes only ET tasks");
+                }
                 schedulable = EtInstanceBruteForceTest.launchTest(etTasks, policy, false);
-            } else if (algorithmName.equals("ETSG")) {
+            } else if (algorithmName.equals("ET-SG")) {
+                if (!ttTasks.isEmpty()) {
+                    throw new IllegalArgumentException("Input instance contains TT tasks, but the algorithm takes only ET tasks");
+                }
                 SimpleScheduleGraphCreator sgc = new SimpleScheduleGraphCreator(etTasks);
                 schedulable = sgc.generateGraphTest(!generateFullGraph, policy, saveGraph);
                 if (saveGraph) {
                     sgc.saveGraphToFile(fileOutPath + ".sg.dot", false);
                 }
-            } else if (algorithmName.startsWith("ETTTBF")) {
+            } else if (algorithmName.startsWith("ETTT-BF")) {
                 EtttBruteForceScheduler ebfs = new EtttBruteForceScheduler(ttTasks, etTasks, policy);
-                if (algorithmName.equals("ETTTBF")) {
+                if (algorithmName.equals("ETTT-BF-WJ")) {
                     schedulable = ebfs.processTasks(true);
-                } else if (algorithmName.equals("ETTTBF-NJ")) {
+                } else if (algorithmName.equals("ETTT-BF-NJ")) {
                     schedulable = ebfs.processTasksNoJitter(true);
                 } else {
                     throw new IllegalArgumentException("Unknown algorithm: " + algorithmName);
@@ -83,7 +89,7 @@ public class Main {
                     int[][] startTimes = ebfs.getStartTimes();
                     OutputUtils.writeStartTimesToFile(fileOutPath + ".st.csv", startTimes);
                 }
-            } else if (algorithmName.equals("ETTTSG")) {
+            } else if (algorithmName.equals("ETTT-SG-EDFFP-H")) {
                 throw new RuntimeException("Not implemented yet");
             } else {
                 throw new IllegalArgumentException("Unknown algorithm: " + algorithmName);
@@ -101,14 +107,24 @@ public class Main {
         System.out.println("Usage: java -jar " + jarName + " [OPTIONS]... INSTANCE_PATH...\n");
         System.out.println("Implements various ET+TT scheduling related algorithms");
         System.out.println("Optional parameters:");
-        System.out.println("   -a      Specify the algorithm (ETBF, ETSG, ETTTBF, ETTTBF-NJ, ETTTSG)");
-        System.out.println("   -p      Specify the policy (EDF-FP, P-RM, CP, CW)");
+        System.out.println("   -a      Specify the algorithm (ET-BF, ET-SG, ETTT-BF-WJ, ETTT-BF-NJ, ETTT-SG-EDFFP-H)");
+        System.out.println("                 ET-BF: brute force algorithm which finds if a set of ET tasks is schedulable");
+        System.out.println("                 ET-SG: schedule graph based algorithm which finds if a set of ET tasks is schedulable");
+        System.out.println("                 ETTT-BF-WJ: brute force algorithm which finds start times for TT tasks with jitter");
+        System.out.println("                 ETTT-BF-NJ: brute force algorithm which finds start times for TT tasks with zero jitter");
+        //System.out.println("                 ETTT-SG-EDFFP-H: heuristic schedule graph based algorithm which finds start times for TT tasks with jitter (work only for the EDF-FP policy)");
+
+        System.out.println("   -p      Specify the policy (EDF-FP (default option), P-RM, CP, CW)");
+        System.out.println("                 EDF-FP: Earliest deadline first Fixed priority");
+        System.out.println("                 P-RM: Precatious-Rate monotonic");
+        System.out.println("                 CP: Critical point");
+        System.out.println("                 CW: Critical window");
         System.out.println();
         System.out.println("   -g      Save a schedule graph, if the specified algorithm uses it");
-        System.out.println("   -s      Saves start times into a file, if the specified algorithm generates them");
         System.out.println("   -f      Creates the entire schedule graph even if there is a deadline miss");
+        System.out.println("   -s      Saves start times into a file, if the specified algorithm generates them");
         System.out.println();
-        System.out.println("   -v      Visualize the instance");
+        System.out.println("   -v      Visualize the instance, interactable with arrows keys and W,A,S,D,Q,E keys");
         System.out.println("   -i      Print information about the instance");
         System.out.println("   -h      Print this help");
     }

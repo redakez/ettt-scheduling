@@ -18,9 +18,9 @@ bin/
 build/
 
 # Temporary files
-*.csv
-*.csv#
+/*.csv
 *.dot
+*.csv#
 
 # Debug
 DebugMain.java

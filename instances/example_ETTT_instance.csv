@@ -1,0 +1,4 @@
+"Task ID","Period","Release Min","Release Max","Execution Min","Execution Max","Deadline","Priority"
+0,10,0,0,2,2,9,0
+1,20,1,1,4,4,5,0
+2,20,2,3,3,5,20,1

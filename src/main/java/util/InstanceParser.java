@@ -36,10 +36,11 @@ public class InstanceParser {
 
         int curTaskId = 0;
         boolean warned = false;
+        boolean etStarted = false;
         while ((line = br.readLine()) != null) {
             String[] stringCells = line.split(",");
             if (stringCells.length != NUMBER_OF_CELLS) {
-                throw new IOException("Incorrect input file format");
+                throw new IOException("Incorrect input file format (wrong number of cells)");
             }
             int[] cells = new int[NUMBER_OF_CELLS];
             for (int i = 0; i < NUMBER_OF_CELLS; i++) {
@@ -50,8 +51,12 @@ public class InstanceParser {
                 warned = true;
             }
             if (cells[7] == 0) { //If is a TT task
+                if (etStarted) {
+                    throw new IOException("Incorrect input file format (TT tasks must precede ET tasks)");
+                }
                 ttTasks.add(new TtTask(curTaskId, cells[1], cells[6], cells[3], cells[5]));
             } else {
+                etStarted = true;
                 etTasks.add(new EtTask(curTaskId, cells[1], cells[6], cells[2], cells[3], cells[4], cells[5], cells[7]));
             }
             curTaskId++;
