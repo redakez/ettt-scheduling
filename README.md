@@ -1,4 +1,4 @@
-# Combinationof time-triggered and event-triggered scheduling
+# Combination of time-triggered and event-triggered scheduling
 
 This repository contains implementations of algorithms used in scheduling event-triggered and time-triggered task
 where an event-triggered task is a task with fixed priority, release jitter, and execution time variation
@@ -69,5 +69,5 @@ The start times are saved in csv format at `./target/example_ETTT_instance.csv.s
 
 ## Instances used in benchmarks
 
-Folder *instances* also contains used two compressed files.
+Folder *instances* also contains used three compressed files.
 These contain instances used in benchmarking the application's algorithms.
