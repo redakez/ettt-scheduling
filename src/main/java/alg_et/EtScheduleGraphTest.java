@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-public class SimpleScheduleGraphCreator {
+public class EtScheduleGraphTest {
 
     public int nextNodeId = 1;
 
@@ -41,10 +41,10 @@ public class SimpleScheduleGraphCreator {
             return max;
         }
 
-        public Node expandNodeWithJob(EtJob job, int earlistEligibleTime, int latestEligibleTime) {
+        public Node expandNodeWithJob(EtJob job, int earliestEligibleTime, int latestEligibleTime) {
             int[] newTaskPeriods = Arrays.copyOf(taskPeriods, taskPeriods.length);
             newTaskPeriods[job.getTaskId()]++;
-            return new Node(earlistEligibleTime+job.getExecutionTimeMin(),
+            return new Node(earliestEligibleTime+job.getExecutionTimeMin(),
                     latestEligibleTime+job.getExecutionTimeMax(),
                     newTaskPeriods,
                     this,
@@ -101,12 +101,12 @@ public class SimpleScheduleGraphCreator {
     ArrayList<EtJob>[] etJobs;
     Node rootNode;
 
-    public SimpleScheduleGraphCreator(ArrayList<EtTask> etTasks) {
+    public EtScheduleGraphTest(ArrayList<EtTask> etTasks) {
         int hyperperiod = JobTaskUtils.getHyperperiodForTasks(null, etTasks);
         etJobs = JobTaskUtils.getEtJobsFromEtTasksAs2dArray(etTasks, hyperperiod);
     }
 
-    public SimpleScheduleGraphCreator(ArrayList<EtJob>[] etJobs) {
+    public EtScheduleGraphTest(ArrayList<EtJob>[] etJobs) {
         this.etJobs = etJobs;
     }
 
@@ -368,7 +368,7 @@ public class SimpleScheduleGraphCreator {
         }
 
         int actualMax;
-        if (earliestCr > curNode.max) {
+        if (earliestCr > curNode.max) { //If you would put "if (false)" as the condition, the algorithm would still work, this condition is here just to make the algorithm faster
             actualMax = earliestCr;
         } else {
             //Find the earliest CR job which does not violate critical time (even outside the curNode.max boundary)
