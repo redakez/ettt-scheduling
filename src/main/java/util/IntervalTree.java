@@ -41,7 +41,7 @@ public class IntervalTree {
          * @param otherHi higher number of an interval
          * @return if this node intersects the given interval
          */
-        boolean intersects(int otherLo, int otherHi) {
+        private boolean intersects(int otherLo, int otherHi) {
             return otherHi >= lo && otherLo <= hi;
         }
 
@@ -50,7 +50,7 @@ public class IntervalTree {
          * Also sets the parent in the new child node.
          * @param newChild new child to replace this node
          */
-        void changeParentsChildTo(Node newChild) {
+        private void changeParentsChildTo(Node newChild) {
             if (parent == null) {
                 root = newChild;
             } else {

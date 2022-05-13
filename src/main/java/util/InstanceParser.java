@@ -63,6 +63,9 @@ public class InstanceParser {
         }
 
         for (EtTask et : etTasks) {
+            if (et.getDeadline() > et.getPeriod()) {
+                throw new IOException("Some ET task in in input file has larger deadline than period");
+            }
             if (et.getExecutionTimeMin() > et.getExecutionTimeMax() || et.getReleaseTimeMin() > et.getReleaseTimeMax()) {
                 throw new IOException("On some event triggered task the min value is bigger than the corresponding max value in the input instance");
             }
@@ -75,6 +78,9 @@ public class InstanceParser {
         }
 
         for (TtTask tt : ttTasks) {
+            if (tt.getDeadline() > tt.getPeriod()) {
+                throw new IOException("Some TT task in in input file has larger deadline than period");
+            }
             if (tt.getPeriod() < 0 ||
                     tt.getReleaseTime() < 0 ||
                     tt.getExecutionTime() < 0 ||

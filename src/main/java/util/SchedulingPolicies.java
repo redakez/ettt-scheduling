@@ -6,20 +6,6 @@ import java.util.Arrays;
 
 public class SchedulingPolicies {
 
-    //EDF-FP policy if all jobs released at their minimum release times
-    public static EtJob edfFpPolicyMinRelease(int time, EtJob[] applicableJobs) {
-        EtJob ret = null;
-        for (EtJob eej : applicableJobs) {
-            if (eej == null || eej.getReleaseTimeMin() > time) {
-                continue;
-            }
-            if (ret == null || ret.compareTo(eej) > 0) {
-                ret = eej;
-            }
-        }
-        return ret;
-    }
-
     public static ExtendedEtJob edfFpPolicy(int time, ExtendedEtJob[] applicableJobs) {
         ExtendedEtJob ret = null;
         for (ExtendedEtJob eej : applicableJobs) {
@@ -154,5 +140,21 @@ public class SchedulingPolicies {
         }
         return ret;
     }
+
+    //EDF-FP policy if all jobs released at their maximum release times
+    public static EtJob edfFpPolicyMaxRelease(int time, EtJob[] applicableJobs) {
+        EtJob ret = null;
+        for (EtJob eej : applicableJobs) {
+            if (eej == null || eej.getReleaseTimeMax() > time) {
+                continue;
+            }
+            if (ret == null || ret.compareTo(eej) > 0) {
+                ret = eej;
+            }
+        }
+        return ret;
+    }
+
+
 
 }

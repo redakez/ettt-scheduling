@@ -25,7 +25,7 @@ public class OutputUtils {
         if (f.exists()) {
             f.delete();
         }
-        f.getParentFile().mkdirs(); //Create specified directory if it does not exist
+        //f.getParentFile().mkdirs(); //Create specified directory if it does not exist (this does not work sometimes?)
         f.createNewFile();
         FileWriter fw = new FileWriter(filePath);
 

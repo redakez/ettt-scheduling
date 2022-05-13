@@ -13,16 +13,16 @@ import java.util.ArrayList;
  */
 public class EtInstanceBruteForceTest {
 
-    public static boolean launchTest(ArrayList<EtTask> etTasks, SchedulingPolicy iipType, boolean verbose) {
+    public static boolean launchTest(ArrayList<EtTask> etTasks, SchedulingPolicy policy, boolean verbose) {
         int hyperperiod = JobTaskUtils.getHyperperiodForTasks(null, etTasks);
         ArrayList<ExtendedEtJob>[] extEtJobs = JobTaskUtils.getExtendedEtJobsFromEtTasksAs2dArray(etTasks, hyperperiod);
-        return recursiveJobAssign(0,0, extEtJobs, iipType, verbose);
+        return recursiveJobAssign(0,0, extEtJobs, policy, verbose);
     }
 
     private static boolean recursiveJobAssign(int curTaskId, int curJobId, ArrayList<ExtendedEtJob>[] extEtJob,
-                                              SchedulingPolicy iipType, boolean verbose) {
+                                              SchedulingPolicy policy, boolean verbose) {
         if (curTaskId == extEtJob.length) {
-            return simulateScenario(extEtJob, iipType, verbose);
+            return simulateScenario(extEtJob, policy, verbose);
         }
         ExtendedEtJob curExtEtJob = extEtJob[curTaskId].get(curJobId);
         for (int et = curExtEtJob.getJob().getExecutionTimeMax(); et >= curExtEtJob.getJob().getExecutionTimeMin(); et--) {
@@ -31,9 +31,9 @@ public class EtInstanceBruteForceTest {
                 curExtEtJob.setReleaseTime(rt);
                 boolean result;
                 if (extEtJob[curTaskId].size() == curJobId+1) {
-                    result = recursiveJobAssign(curTaskId+1, 0, extEtJob, iipType, verbose);
+                    result = recursiveJobAssign(curTaskId+1, 0, extEtJob, policy, verbose);
                 } else {
-                    result = recursiveJobAssign(curTaskId, curJobId+1, extEtJob, iipType, verbose);
+                    result = recursiveJobAssign(curTaskId, curJobId+1, extEtJob, policy, verbose);
                 }
                 if (!result) {
                     return false;
@@ -43,9 +43,9 @@ public class EtInstanceBruteForceTest {
         return true;
     }
 
-    private static boolean simulateScenario(ArrayList<ExtendedEtJob>[] extEtJobs, SchedulingPolicy iipType, boolean verbose) {
+    private static boolean simulateScenario(ArrayList<ExtendedEtJob>[] extEtJobs, SchedulingPolicy policy, boolean verbose) {
         if (verbose) {
-            System.out.println("Execute Edf launched with IIP: " + iipType.toString());
+            System.out.println("Execute Edf launched with policy: " + policy.toString());
             System.out.println("All fixed jobs:");
             for (int i = 0; i < extEtJobs.length; i++) {
                 System.out.println(" + Task Id: " + i);
@@ -72,13 +72,13 @@ public class EtInstanceBruteForceTest {
                     System.out.println(" -- Task ID: " + i + ", job: " + (appJobs[i] == null ? "null" : appJobs[i].toString()));
                 }
             }
-            if (iipType == SchedulingPolicy.EDFFP) {
+            if (policy == SchedulingPolicy.EDFFP) {
                 pickedJob = SchedulingPolicies.edfFpPolicy(t, appJobs);
-            } else if (iipType == SchedulingPolicy.PRM) {
+            } else if (policy == SchedulingPolicy.PRM) {
                 pickedJob = SchedulingPolicies.prmPolicy(t, appJobs);
-            } else if (iipType == SchedulingPolicy.CP) {
+            } else if (policy == SchedulingPolicy.CP) {
                 pickedJob = SchedulingPolicies.cpPolicy(t, appJobs);
-            } else if (iipType == SchedulingPolicy.CW) {
+            } else if (policy == SchedulingPolicy.CW) {
                 pickedJob = SchedulingPolicies.cwPolicy(t, appJobs);
             }
             if (verbose) {

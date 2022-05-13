@@ -1,6 +1,6 @@
 package alg_ettt;
 
-import alg_et.SimpleScheduleGraphCreator;
+import alg_et.EtScheduleGraphTest;
 import model.*;
 import util.IntervalTree;
 
@@ -71,7 +71,10 @@ public class EtttBruteForceScheduler {
      */
     private boolean scheduleJobsRec(int curTaskId, int curJobRepetition, IntervalTree it) {
         if (curTaskId == ttTaskNum) {
-            SimpleScheduleGraphCreator sgc = new SimpleScheduleGraphCreator(allJobs);
+            if (Thread.currentThread().isInterrupted()) {
+                return true;
+            }
+            EtScheduleGraphTest sgc = new EtScheduleGraphTest(allJobs);
             scheduleGraphCalls++;
             return sgc.generateGraphTest(true, this.policy,false);
         }
@@ -121,7 +124,10 @@ public class EtttBruteForceScheduler {
      */
     private boolean scheduleJobsRecNoJitter(int curTaskId, IntervalTree it) {
         if (curTaskId == ttTaskNum) {
-            SimpleScheduleGraphCreator sgc = new SimpleScheduleGraphCreator(allJobs);
+            if (Thread.currentThread().isInterrupted()) {
+                return true;
+            }
+            EtScheduleGraphTest sgc = new EtScheduleGraphTest(allJobs);
             scheduleGraphCalls++;
             return sgc.generateGraphTest(true, this.policy,true);
         }

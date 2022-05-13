@@ -1,4 +1,4 @@
-# Combination of time-triggered and event-triggered scheduling
+# Combinationof time-triggered and event-triggered scheduling
 
 This repository contains implementations of algorithms used in scheduling event-triggered and time-triggered task
 where an event-triggered task is a task with fixed priority, release jitter, and execution time variation
@@ -63,11 +63,11 @@ The graph is saved in a graphviz format at `./target/example_ET_instance.csv.sg.
 
 ### Finding start times for TT tasks
 
-Let us say that we wish to know start times with zero jitter of the instance specified in file `./instances/example_ETTT_instance.csv`.
-This can be done with command: `java -jar ./target/ettt_scheduler.jar ./instances/example_ETTT_instance.csv -a ETTT-BF-NJ -s`.
+Let us say that we wish to know start times with jitter of the instance specified in file `./instances/example_ETTT_instance.csv`.
+This can be done with command: `java -jar ./target/ettt_scheduler.jar ./instances/example_ETTT_instance.csv -a ETTT-BF-WJ -s`.
 The start times are saved in csv format at `./target/example_ETTT_instance.csv.st.csv`.
 
 ## Instances used in benchmarks
 
-Folder *instances* also contains used three compressed files.
+Folder *instances* also contains used two compressed files.
 These contain instances used in benchmarking the application's algorithms.
