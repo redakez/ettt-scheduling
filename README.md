@@ -5,6 +5,8 @@ where an event-triggered task is a task with fixed priority, release jitter, and
 and time-triggered task with no release jitter or execution time variation.
 We assume that an upper and lower bound on the execution time and release time of ET tasks is known a priori.
 
+For more information see https://dspace.cvut.cz/bitstream/handle/10467/101699/F3-DP-2022-Jaros-Marek-jarosm11-DP2022.pdf
+
 ## How to build
 
 You will need the following software:
